@@ -62,7 +62,8 @@ var parseCSS = function(files, config, commitUrl, token, cb) {
             request({
                 url: rawUrl,
                 headers: {
-                    'User-Agent': 'YouShouldUse'
+                    'User-Agent': 'YouShouldUse',
+                    'Accept': 'application/vnd.github.diff'
                 }
             }, function(err, res, body) {
                 var contents = body;
