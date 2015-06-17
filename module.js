@@ -67,7 +67,7 @@ var parseCSS = function(files, config, commitUrl, token, cb) {
             }, function(err, res, body) {
                 var contents = body;
 
-                console.log(contents);
+                console.log(rawUrl, contents);
 
                 postcss(doiuse({
                     browsers: config,
