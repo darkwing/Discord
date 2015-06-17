@@ -66,6 +66,9 @@ var parseCSS = function(files, config, commitUrl, token, cb) {
                 }
             }, function(err, res, body) {
                 var contents = body;
+
+                console.log(contents);
+
                 postcss(doiuse({
                     browsers: config,
                     onFeatureUsage: addFeature
