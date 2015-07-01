@@ -3,19 +3,18 @@
 var lineToIndex = function(diff, lineNumber) {
     var diffIndexes = diff.split('\n');
     var currentLine = 0;
-    var currentIndex, work;
+    var currentIndex, currentIndexSubstr;
 
     for (var i = 0; i < diffIndexes.length; i++) {
         currentIndex = diffIndexes[i];
-        if (currentIndex.substring(0, 1) !== '-') {
+        currentIndexSubstr = currentIndex.substring(0, 1);
+
+        if (currentIndexSubstr !== '-') {
             currentLine++;
-        }
-        if (currentIndex.substring(0, 1) === '@') {
-            work = currentIndex.split('+');
-            currentLine = work[1].split(',')[0];
-        }
-        if (currentLine === lineNumber) {
-            if (currentIndex.substring(0, 1) === '+') {
+        } else if (currentIndexSubstr === '@') {
+            currentLine = currentIndex.split('+')[1].split(',')[0];
+        } else if (currentLine === lineNumber) {
+            if (currentIndexSubstr === '+') {
                 return i + 1; //cause GitHub seems to start file indexes at 1 instead of 0. Oh Well.
             } else {
                 return -1;
