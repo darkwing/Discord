@@ -11,4 +11,4 @@ app.use(bodyParser());
 app.use(express.static('build/www'));
 app.post('/hook', hook.handle);
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 5000);

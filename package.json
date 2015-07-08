@@ -36,6 +36,9 @@
     },
     "devDependencies": {
         "gulp-jsbeautifier": "0.0.8",
-        "gulp-jshint": "1.10.0"
+        "gulp-jshint": "1.10.0",
+        "nock": "2.7.0",
+        "chai": "3.0.0 ",
+        "chai-as-promised": "5.1.0"
     }
 }

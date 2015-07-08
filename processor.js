@@ -8,12 +8,13 @@ var stylus = require('stylus');
 
 var logger = require('./logger');
 var utils = require('./utils');
+var githubClient = utils.githubClient;
 
 /**
  * Test and report on changes to the given CSS stylesheet.
  */
 function processCSS(repo, branch, file, config, handleIncompatibility) {
-    var repoClient = github.client().repo(repo);
+    var repoClient = githubClient.repo(repo);
 
     // Fetch the contents of the stylesheet
     repoClient.contents(file.filename, branch, function(error, fileContentsMetadata) {
@@ -38,7 +39,7 @@ function processCSS(repo, branch, file, config, handleIncompatibility) {
  * Test and report on changes to the given Stylus stylesheet.
  */
 function processStylus(repo, branch, file, config, handleIncompatibility) {
-    var repoClient = github.client().repo(repo);
+    var repoClient = githubClient.repo(repo);
 
     // Fetch the contents of the stylesheet
     repoClient.contents(file.filename, branch, function(error, fileContentsMetadata) {
