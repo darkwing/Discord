@@ -8,7 +8,11 @@ var stylus = require('stylus');
 
 var logger = require('./logger');
 var utils = require('./utils');
-var githubClient = utils.githubClient;
+var githubClient = github.client(null, {
+    hostname: 'host',
+    protocol: 'http',
+    port: '8000'
+});
 
 /**
  * Test and report on changes to the given CSS stylesheet.

@@ -11,7 +11,7 @@ var processor = require('./processor');
 var utils = require('./utils');
 
 var configFilename = '.doiuse';
-var githubClient = utils.githubClient;
+var githubClient = github.client();
 
 /**
  * Handle requests to /hook.
@@ -20,8 +20,6 @@ function handle(request, response) {
     var eventType = request.headers['x-github-event'];
     var metadata = request.body;
     var originRepo;
-
-    console.log('proxy: ', githubClient.requestDefaults['proxy']);
 
     response.status(200).send('OK');
 

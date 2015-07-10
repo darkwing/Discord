@@ -4,6 +4,7 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var nock = require('nock');
 var request = require('request');
+var github = require('octonode');
 
 var hook = require('../hook');
 var utils = require('../utils');
@@ -13,7 +14,7 @@ var should = chai.should();
 chai.use(chaiAsPromised);
 
 var appHost = 'http://localhost:5000/';
-var githubProxyHost = 'http://host:8000/';
+var githubProxyHost = 'https://api.github.com/';
 var urlPatterns = {
     repo: 'repos/{repo}',
     pr: 'repos/{repo}/pulls/{number}',
@@ -22,8 +23,11 @@ var urlPatterns = {
     contents: 'repos/{repo}/contents/{path}?ref={sha}'
 };
 
-var githubClient = utils.githubClient;
-utils.setGithubProxy('http://host:8000/');
+var githubClient = github.client(null, {
+    hostname: 'host',
+    protocol: 'http',
+    port: '8000'
+});
 
 function substitute(str, data) {
     return str.replace((/\\?\{([^{}]+)\}/g), function(match, name){
@@ -79,6 +83,11 @@ describe('Hook tests', function() {
                 }))
                 .reply(200, commitsPayload);
 
+                console.log(githubProxyHost + substitute(urlPatterns.commits, {
+                    repo: repoFullName,
+                    number: githubPayload.pull_request.number
+                }));
+
             nock(githubProxyHost)
                 .get(substitute(urlPatterns.commit, {
                     repo: repoFullName,
@@ -92,7 +101,7 @@ describe('Hook tests', function() {
                     path: commit1Payload.files[0].filename,
                     sha: commit1Payload.sha
                 }))
-                .reply(200, commit1Payload);
+                .reply(200, commit1Contents);
 
             var requestOptions = {
                 url: appHost + 'hook',
